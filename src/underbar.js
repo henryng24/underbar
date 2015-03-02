@@ -105,23 +105,51 @@
   };
 
   // Produce a duplicate-free version of the array.
+
+  // I tried to use each
+
+  // _.uniq = function(array, sorted, iterator) {
+  //   var noDuplicates = [];
+  //   if (arguments.length > 1) {
+  //     _.each(array, function(item) {
+  //       var transformedItem = iterator(item);
+  //         if (transformedItem in noDuplicates === false) {
+  //           noDuplicates.push(transformedItem);
+  //         }
+  //     });
+  //   } else {
+  //     _.each(array, function(item) {
+  //       if (item in noDuplicates === false) {
+  //          noDuplicates.push(item);
+  //       }
+  //     });
+  //   }
+  //   return noDuplicates;
+  // };
   _.uniq = function(array, sorted, iterator) {
     var noDuplicates = [];
-    if (arguments.length > 1) {
-      _.each(array, function(item) {
-        var transformedItem = iterator(item);
-          if (transformedItem in noDuplicates === false) {
-            noDuplicates.push(transformedItem);
-          }
-      });
-    } else {
-      _.each(array, function(item) {
-        if (item in noDuplicates === false) {
-           noDuplicates.push(item);
+      if (arguments.length === 3) {
+        for (var index = 0; index < array.length; index ++) {
+           if (array[index] != array[index+1]) {
+            //iterator is supposed to be applied on the elements passed through line 132.
+             noDuplicates.push(array[index]);
+           } 
         }
-      });
-    }
-    return noDuplicates;
+      } else if (arguments.length === 2) {
+        for (var index = 0; index < array.length; index ++) {
+          if (array[index] != array[index+1]) {
+            noDuplicates.push(array[index]);
+          }
+        }
+      } else {
+        var sortedArray = array.sort();
+        for (var index = 0; index < sortedArray.length; index ++) {
+          if (sortedArray[index] != sortedArray[index+1]) {
+            noDuplicates.push(sortedArray[index]);
+          }
+        }
+      }
+      return noDuplicates;
   };
 
 
