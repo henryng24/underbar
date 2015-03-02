@@ -109,9 +109,9 @@
     var noDuplicates = [];
     if (arguments.length > 1) {
       _.each(array, function(item) {
-        //var transformedItem = iterator(item);
-          if (iterator(item) in noDuplicates === false) {
-            noDuplicates.push(iterator(item));
+        var transformedItem = iterator(item);
+          if (transformedItem in noDuplicates === false) {
+            noDuplicates.push(transformedItem);
           }
       });
     } else {
@@ -176,6 +176,16 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
+    if (accumulator === undefined) {
+      var total = collection[0];
+      collection.shift();
+    } else {
+      var total = accumulator;
+    }
+    _.each(collection, function(item) {
+      total = iterator(total, item);
+    });
+    return total;
   };
 
   // Determine if the array or object contains a given value (using `===`).
