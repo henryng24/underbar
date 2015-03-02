@@ -93,25 +93,45 @@
 
   // Return all elements of an array that don't pass a truth test.
   _.reject = function(collection, test) {
+    var rejectedElements = [];
     _.filter(collection, function(item) {
-  // I felt really accomplished with this one, so I want to document my understanding. What's happening is the test
-  // running through the collection is to see if the result is false, if it is, return that specific item,
-  // and push it into the array that filter us returning
       if (test(item) === false) {
-        return item;
+        rejectedElements.push(item);
       }
     });
+    return rejectedElements;
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
   };
 
   // Produce a duplicate-free version of the array.
-  _.uniq = function(array) {
+  _.uniq = function(array, sorted, iterator) {
+    var noDuplicates = [];
+    if (arguments.length > 1) {
+      _.each(array, function(item) {
+        //var transformedItem = iterator(item);
+          if (iterator(item) in noDuplicates === false) {
+            noDuplicates.push(iterator(item));
+          }
+      });
+    } else {
+      _.each(array, function(item) {
+        if (item in noDuplicates === false) {
+           noDuplicates.push(item);
+        }
+      });
+    }
+    return noDuplicates;
   };
 
 
   // Return the results of applying an iterator to each element.
   _.map = function(collection, iterator) {
+    var transformedArray = [];
+    _.each(collection, function(item) {
+      transformedArray.push(iterator(item));
+    });
+    return transformedArray;
     // map() is a useful primitive iteration function that works a lot
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
