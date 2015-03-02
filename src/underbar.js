@@ -93,6 +93,14 @@
 
   // Return all elements of an array that don't pass a truth test.
   _.reject = function(collection, test) {
+    _.filter(collection, function(item) {
+  // I felt really accomplished with this one, so I want to document my understanding. What's happening is the test
+  // running through the collection is to see if the result is false, if it is, return that specific item,
+  // and push it into the array that filter us returning
+      if (test(item) === false) {
+        return item;
+      }
+    });
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
   };
